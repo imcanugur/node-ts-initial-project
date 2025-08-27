@@ -80,7 +80,7 @@
     "crmdomain": "http://crmsntrl.netgsm.com.tr:9111/:usercode/"
   }
 }
-```   
+```
 
 4**Veritabanını Başlatın** (Varsa):
 
