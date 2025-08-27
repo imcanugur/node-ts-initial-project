@@ -20,7 +20,7 @@ import {
 import { LoginResponse, RegisterResponse } from "@/responses/AuthResponse";
 import { Ok, Created } from "@/responses/Success";
 import { BadRequestError } from "@/responses/Errors";
-import {OpenAPI, ResponseSchema} from "routing-controllers-openapi";
+import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
 import { ValidationError } from "xml2js";
 import { AuthService } from "@/services/AuthService";
 
@@ -51,19 +51,20 @@ export class AuthController {
               email: {
                 type: "string",
                 format: "email",
-                example: "user@example.com"
+                example: "user@example.com",
               },
               password: {
                 type: "string",
-                example: "123456"
-              }
+                example: "123456",
+              },
             },
-            required: ["email", "password"]
-          }
-        }
-      }
-    }
-  })  async login(@Body() body: LoginRequest): Promise<any> {
+            required: ["email", "password"],
+          },
+        },
+      },
+    },
+  })
+  async login(@Body() body: LoginRequest): Promise<any> {
     try {
       const { email, password } = body;
 
@@ -92,7 +93,8 @@ export class AuthController {
   @Post("/register")
   @OpenAPI({
     summary: "User Registration",
-    description: "Registers a new user and sends an OTP to their email for verification.",
+    description:
+      "Registers a new user and sends an OTP to their email for verification.",
     requestBody: {
       required: true,
       content: {
@@ -114,8 +116,7 @@ export class AuthController {
   @HttpCode(201)
   async register(@Body() body: RegisterRequest): Promise<any> {
     try {
-      const { name, email, password, phone, role, attributes, images } =
-        body;
+      const { name, email, password, phone, role, attributes, images } = body;
 
       const existingUser = await this.userService.findByEmail(email);
       if (existingUser)

@@ -21,11 +21,12 @@
 
 4**Veritabanını Başlatın** (Varsa):
 
-   ```bash
-   npm run seed
-   ```
+```bash
+npm run seed
+```
 
 5**API Sunucusunu Başlatın**:
-   ```bash
-   npm run dev
-   ```
+
+```bash
+npm run dev
+```

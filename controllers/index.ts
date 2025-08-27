@@ -7,5 +7,5 @@ export {
   AuthController,
   DashboardController,
   MediaController,
-  ProfileController
+  ProfileController,
 };

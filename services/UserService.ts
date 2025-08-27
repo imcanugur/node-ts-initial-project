@@ -73,7 +73,7 @@ export class UserService {
   async removeAccount(id: string): Promise<void> {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
-      throw new NotFoundError('Kullanıcı bulunamadı.');
+      throw new NotFoundError("Kullanıcı bulunamadı.");
     }
     await this.userRepository.softDelete(user.id);
   }

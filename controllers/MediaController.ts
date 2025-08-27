@@ -21,9 +21,7 @@ import { OpenAPI } from "routing-controllers-openapi";
 export class MediaController {
   private upload: multer.Multer;
 
-  constructor(
-    private readonly mediaService: MediaService,
-  ) {
+  constructor(private readonly mediaService: MediaService) {
     this.upload = multer({ storage: multer.memoryStorage() });
   }
 
