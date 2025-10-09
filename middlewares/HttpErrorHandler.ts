@@ -6,7 +6,7 @@ import { Service } from "typedi";
 import { Logger } from "@/config/Logger";
 import config from "config";
 import { respond } from "@/utils/respond";
-import {response} from "express";
+import { response } from "express";
 
 @Service()
 @Middleware({ type: "after" })
@@ -31,7 +31,7 @@ export class HttpErrorHandler implements ExpressErrorMiddlewareInterface {
     let extra = {};
 
     if (this.env === "production") {
-      this.logger.error( error.message, {
+      this.logger.error(error.message, {
         error: error.errors,
         validateMessage: constraintErrors,
         stack: error.stack,
@@ -46,7 +46,7 @@ export class HttpErrorHandler implements ExpressErrorMiddlewareInterface {
         status: error.httpCode || 500,
         validateMessage: hasValidateMessage ? constraintErrors : undefined,
         message: error.message,
-        error: error.errors
+        error: error.errors,
       };
     }
 
@@ -59,7 +59,7 @@ export class HttpErrorHandler implements ExpressErrorMiddlewareInterface {
       method: req.method,
       timestamp: new Date().toISOString(),
       ip: req.connection.remoteAddress,
-    }
+    };
 
     return respond(res, status, message, extra);
   }

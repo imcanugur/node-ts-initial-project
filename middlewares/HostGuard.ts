@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import config from "config";
-import {normalizePath, respond} from "@/utils/respond";
+import { normalizePath, respond } from "@/utils/respond";
 
 interface DomainRule {
   domain: string;
@@ -25,8 +25,8 @@ export function HostGuard(req: Request, res: Response, next: NextFunction) {
     return respond(res, 400, "Missing Host header");
   }
 
-  const matchedDomain = guardConfig.rules.find(rule =>
-    host === rule.domain || host.endsWith("." + rule.domain)
+  const matchedDomain = guardConfig.rules.find(
+    (rule) => host === rule.domain || host.endsWith("." + rule.domain),
   );
 
   if (!matchedDomain) {
@@ -37,14 +37,14 @@ export function HostGuard(req: Request, res: Response, next: NextFunction) {
   const { allowedRoutes = [], deniedRoutes = [], redirectTo } = matchedDomain;
   const path = normalizePath(req.path);
 
-  const isDenied = deniedRoutes.some(route => matchRoute(route, path));
+  const isDenied = deniedRoutes.some((route) => matchRoute(route, path));
   if (isDenied) {
     console.warn(`🚫 [${host}] ${path} blocked by deniedRoutes`);
     if (redirectTo) return res.redirect(redirectTo);
     return respond(res, 403, "Access denied for this route");
   }
 
-  const isAllowed = allowedRoutes.some(route => matchRoute(route, path));
+  const isAllowed = allowedRoutes.some((route) => matchRoute(route, path));
   if (!isAllowed) {
     console.warn(`❌ [${host}] tried to access ${path} (not allowed)`);
     return respond(res, 404, "Not Found");

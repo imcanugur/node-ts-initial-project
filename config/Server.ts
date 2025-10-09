@@ -19,7 +19,7 @@ import {
   ProfileController,
   MediaController,
 } from "@/controllers";
-import {HostGuard} from "@/middlewares/HostGuard";
+import { HostGuard } from "@/middlewares/HostGuard";
 useContainer(Container);
 
 class Server {

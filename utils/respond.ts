@@ -7,7 +7,7 @@ export async function respond(
   res: Response,
   code: number,
   message: string,
-  extra?: Record<string, any>
+  extra?: Record<string, any>,
 ) {
   const req = res.req;
   const isDev = (config.get("app.env") || "") !== "production";
@@ -21,15 +21,14 @@ export async function respond(
     req.xhr ||
     (req.headers["user-agent"] &&
       /(postman|insomnia|curl|httpie|axios|fetch)/i.test(
-        req.headers["user-agent"] || ""
+        req.headers["user-agent"] || "",
       ));
 
   const safeExtra = isDev
     ? extra
     : Object.fromEntries(
-      Object.entries(extra || {}).filter(([key]) => key !== "stack")
-    );
-
+        Object.entries(extra || {}).filter(([key]) => key !== "stack"),
+      );
 
   if (isApiClient) {
     return res.status(code).json({
@@ -51,9 +50,10 @@ export async function respond(
         <div class="px-6 py-4 border-b border-neutral-800 flex items-center justify-between">
           <h2 class="text-lg font-semibold text-amber-400">Information</h2>
           ${
-      isDev && safeExtra?.stack            ? `<button id="toggleStack" class="text-xs text-gray-400 hover:text-amber-400 transition">Show Stack Trace</button>`
-            : ""
-        }
+            isDev && safeExtra?.stack
+              ? `<button id="toggleStack" class="text-xs text-gray-400 hover:text-amber-400 transition">Show Stack Trace</button>`
+              : ""
+          }
         </div>
         <div class="px-6 py-4 grid grid-cols-2 gap-4 border-b border-neutral-800">
           <div>
@@ -70,7 +70,7 @@ export async function respond(
           </div>
           <div>
             <p class="text-gray-400 text-xs uppercase mb-1">IP</p>
-            <p class="text-sm font-semibold text-gray-100">${escapeHtml( req?.ip || "-" )}</p>
+            <p class="text-sm font-semibold text-gray-100">${escapeHtml(req?.ip || "-")}</p>
           </div>
         </div>
         ${
@@ -87,17 +87,17 @@ export async function respond(
                 <h3 class="text-sm font-semibold text-amber-400 mb-2">Validate Message:</h3>
                 <ul class="text-xs text-gray-300 list-disc list-inside">
                   ${Object.values(safeExtra.validateMessage)
-              .flat()
-              .map((msg: any) => `<li>${escapeHtml(msg)}</li>`)
-              .join("")}
+                    .flat()
+                    .map((msg: any) => `<li>${escapeHtml(msg)}</li>`)
+                    .join("")}
                 </ul>
               </div>`
             : ""
         }
       </div>
       ${
-      isDev && safeExtra?.stack
-            ? `<script>
+        isDev && safeExtra?.stack
+          ? `<script>
               const btn = document.getElementById("toggleStack");
               const stack = document.getElementById("stackContent");
               if(btn && stack){
@@ -109,8 +109,8 @@ export async function respond(
                 });
               }
             </script>`
-            : ""
-        }
+          : ""
+      }
       `;
 
     const html = template
@@ -130,10 +130,7 @@ export async function respond(
 }
 
 function escapeHtml(str: string = "") {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 function getErrorColor(code: number) {

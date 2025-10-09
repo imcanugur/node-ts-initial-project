@@ -29,7 +29,7 @@ export const AuthMiddleware = async (
       throw new Error(
         403,
         "User's role does not have permission for this action",
-        { requiredRoles: roles, userRole: user.role }
+        { requiredRoles: roles, userRole: user.role },
       );
     }
 
