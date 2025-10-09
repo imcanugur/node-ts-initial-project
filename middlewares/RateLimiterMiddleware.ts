@@ -1,7 +1,7 @@
 import { Middleware, ExpressMiddlewareInterface } from "routing-controllers";
 import { Service } from "typedi";
-import { RateLimiter } from "../config/RateLimiter";
-import { TooManyRequests } from "../responses/Errors";
+import { RateLimiter } from "@/config/RateLimiter";
+import { TooManyRequests } from "@/responses/Errors";
 import { NextFunction, Request, Response } from "express";
 
 @Service()

@@ -1,5 +1,6 @@
 import config from "config";
 import { BlobServiceClient } from "@azure/storage-blob";
+import {Error} from "@/responses/Errors";
 
 export class Azure {
   private static instance: Azure;
@@ -18,7 +19,7 @@ export class Azure {
       !azureConfig.storageKey ||
       !azureConfig.containerName
     ) {
-      throw new Error("Azure storage configuration is missing in config file.");
+      throw new Error(500, "Azure storage configuration is missing in config file.");
     }
 
     const connectionString = `DefaultEndpointsProtocol=https;AccountName=${azureConfig.storageAccount};AccountKey=${azureConfig.storageKey};EndpointSuffix=core.windows.net`;

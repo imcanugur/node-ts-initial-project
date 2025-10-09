@@ -3,52 +3,64 @@ import {
   ExpressErrorMiddlewareInterface,
 } from "routing-controllers";
 import { Service } from "typedi";
-import { Logger } from "../config/Logger";
+import { Logger } from "@/config/Logger";
 import config from "config";
+import { respond } from "@/utils/respond";
+import {response} from "express";
 
 @Service()
 @Middleware({ type: "after" })
 export class HttpErrorHandler implements ExpressErrorMiddlewareInterface {
-  private loggerService: Logger;
-  private env: string;
+  private logger: Logger;
+  private readonly env: string;
 
   constructor() {
-    this.loggerService = new Logger();
+    this.logger = new Logger();
     this.env = config.get("app.env");
   }
 
-  error(error: any, request: any, response: any, next: (err: any) => any) {
+  async error(error: any, req: any, res: any, next: (err: any) => any) {
     const constraintErrors =
       error.errors?.map((err: any) => Object.values(err.constraints)).flat() ||
       [];
     const hasValidateMessage = constraintErrors.length > 0;
 
+    const status = error.httpCode || error.status || 500;
+    const message = error.message || "Internal Server Error";
+
+    let extra = {};
+
     if (this.env === "production") {
-      this.loggerService.error(error.message, {
+      this.logger.error( error.message, {
         error: error.errors,
         validateMessage: constraintErrors,
         stack: error.stack,
         status: error.httpCode,
-        url: request.originalUrl,
-        method: request.method,
+        url: req.originalUrl,
+        method: req.method,
         timestamp: new Date().toISOString(),
-        ip: request.connection.remoteAddress,
+        ip: req.connection.remoteAddress,
       });
 
-      response.status(error.httpCode || 500).json({
+      extra = {
         status: error.httpCode || 500,
         validateMessage: hasValidateMessage ? constraintErrors : undefined,
         message: error.message,
-        error: error.errors,
-      });
-    } else {
-      response.status(error.httpCode || 500).json({
-        status: error.httpCode || 500,
-        validateMessage: hasValidateMessage ? constraintErrors : undefined,
-        message: error.message,
-        error: error.errors,
-        stack: error.stack,
-      });
+        error: error.errors
+      };
     }
+
+    extra = {
+      error: error.errors,
+      validateMessage: constraintErrors,
+      stack: error.stack,
+      status: error.httpCode,
+      url: req.originalUrl,
+      method: req.method,
+      timestamp: new Date().toISOString(),
+      ip: req.connection.remoteAddress,
+    }
+
+    return respond(res, status, message, extra);
   }
 }

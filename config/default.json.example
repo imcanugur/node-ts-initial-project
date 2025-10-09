@@ -1,0 +1,80 @@
+{
+  "app": {
+    "host": "127.0.0.1",
+    "port": 1477,
+    "key": "qwerty",
+    "expires_in": "365d", // Token geçerlilik süresi 365 gün
+    "env": "development", // Uygulama ortamı, "production" || "development"
+    "domain": {
+      "enabled": true,
+      "rules": [
+        {
+          "domain": "admin.domain.com",
+          "allowedRoutes": ["/admin/*"],
+          "deniedRoutes": ["/admin/secret", "/admin/internal/*"]
+        },
+        {
+          "domain": "api.domain.com",
+          "allowedRoutes": ["/services/*", "/public/*"],
+          "deniedRoutes": ["/services/debug/*", "/services/internal"]
+        },
+        {
+          "domain": "client.domain.com",
+          "allowedRoutes": ["/client/*"],
+          "deniedRoutes": ["/client/admin/*"]
+        }
+      ]
+    },
+    "redis": {
+      "host": "localhost",
+      "db": 7,
+      "port": 6379,
+      "expires_in": 31536000000, // Token geçerlilik süresi 365 gün
+      "family": 4
+    },
+    "rate_limiter": {
+      "points": 500, // Kullanıcı başına izin verilen istek sayısı
+      "duration": 60, // Dakikada 5 istek
+      "blockDuration": 60 // 1 dakika boyunca engelleme
+    },
+    "logger": {
+      "logFile": "logs/%DATE%.log", // Günlük dosya adı
+      "datePattern": "YYYY-MM-DD", // Dosya adında tarih formatı
+      "zippedArchive": true, // Log dosyalarını sıkıştır
+      "maxSize": "20m", // Maksimum log dosyası boyutu
+      "maxFiles": "30d" // 30 gün boyunca log dosyalarını sakla
+    }
+  },
+  "db": {
+    "type": "postgres",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "name": "name",
+    "username": "root",
+    "password": "root",
+    "synchronize": true,
+    "logging": false,
+    "ssl": false
+  },
+  "azure": {
+    "storageAccount": "name",
+    "storageKey": "token",
+    "containerName": "media"
+  },
+  "mail": {
+    "host": "smtp.gmail.com",
+    "port": 587,
+    "secure": false,
+    "user": "no-reply@example.com",
+    "pass": "password",
+    "from": "example <no-reply@example.com>",
+    "log": true
+  },
+  "netgsm": {
+    "usercode": "phone",
+    "password": "password",
+    "msgheader": "title",
+    "domain": "https://api.netgsm.com.tr/",
+    "crmdomain": "http://crmsntrl.netgsm.com.tr:9111/phone/"
+  }
+}

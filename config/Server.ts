@@ -19,6 +19,7 @@ import {
   ProfileController,
   MediaController,
 } from "@/controllers";
+import {HostGuard} from "@/middlewares/HostGuard";
 useContainer(Container);
 
 class Server {
@@ -60,6 +61,8 @@ class Server {
       middlewares: this.initializeMiddlewares,
       controllers: this.initializeControllers,
     });
+
+    this.app.use(HostGuard);
 
     this.app.get("/", (req, res) => {
       res.status(200).send(`
