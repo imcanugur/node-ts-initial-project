@@ -20,6 +20,9 @@ import {
   MediaController,
 } from "@/controllers";
 import { HostGuard } from "@/middlewares/HostGuard";
+import nunjucks from "nunjucks";
+import path from "path";
+
 useContainer(Container);
 
 class Server {
@@ -64,45 +67,34 @@ class Server {
 
     this.app.use(HostGuard);
 
-    this.app.get("/", (req, res) => {
-      res.status(200).send(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Silence</title>
-            <link rel="preconnect" href="https://fonts.bunny.net">
-            <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-            <style>
-                body {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                    margin: 0;
-                    font-family: Figtree, sans-serif;
-                    background-color: black;
-                    color: white;
-                    text-align: center;
-                }
-                h1 {
-                    font-size: 2rem;
-                    font-weight: 400;
-                }
-            </style>
-        </head>
-        <body>
-            <h1>Silence is golden!</h1>
-        </body>
-        </html>
-      `);
+    this.configureViews();
+
+    this.app.get("/", (req, res, next) => {
+      try {
+        res.render("index", { status: true });
+      } catch (error) {
+        next(error);
+      }
+    });
+
+    this.app.use((err: any, req: any, res: any, next: any) => {
+      const handler = Container.get(HttpErrorHandler);
+      handler.error(err, req, res, next);
     });
   }
 
   private setupSwagger() {
     const swagger = new Swagger(this.app);
     swagger.setupSwaggerUI();
+  }
+
+  private configureViews() {
+    nunjucks.configure(path.join(__dirname, "../views"), {
+      autoescape: true,
+      express: this.app,
+      watch: process.env.NODE_ENV !== "production",
+    });
+    this.app.set("view engine", "njk");
   }
 
   public start(): void {

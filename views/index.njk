@@ -1,0 +1,34 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Silence</title>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Figtree, sans-serif;
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    {% if status %}
+      <h1>Silence is golden!</h1>
+    {% else %}
+      <h1>Silence is silver!</h1>
+    {% endif %}
+</body>
+</html>
