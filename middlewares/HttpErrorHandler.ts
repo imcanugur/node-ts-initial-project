@@ -6,7 +6,6 @@ import { Service } from "typedi";
 import { Logger } from "@/config/Logger";
 import config from "config";
 import { respond } from "@/utils/respond";
-import { response } from "express";
 
 @Service()
 @Middleware({ type: "after" })

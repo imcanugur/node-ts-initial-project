@@ -10,6 +10,7 @@ export class Redis {
     host: string;
     port: number;
     db: number;
+    password?: string;
     expires_in: number;
     family: number;
   };
@@ -19,6 +20,7 @@ export class Redis {
       host: string;
       port: number;
       db: number;
+      password?: string;
       expires_in: number;
       family: number;
     }>("app.redis");
@@ -27,7 +29,18 @@ export class Redis {
       host: this.config.host,
       port: this.config.port,
       db: this.config.db,
+      password: this.config.password,
       family: this.config.family,
+      maxRetriesPerRequest: null,
+      enableReadyCheck: false,
+    });
+
+
+    this.client.on("connect", () => console.log("✅ Redis connected:", this.config.host, this.config.port));
+
+    this.client.on("error", (err) => {
+      console.error("❌ Redis error:", err);
+      return process.exit(1);
     });
   }
 

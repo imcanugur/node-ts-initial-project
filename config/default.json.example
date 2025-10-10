@@ -25,10 +25,13 @@
         }
       ]
     },
+    "scheduler": true,
+    "queue": true,
     "redis": {
       "host": "localhost",
       "db": 7,
       "port": 6379,
+      "password": "",
       "expires_in": 31536000000, // Token geçerlilik süresi 365 gün
       "family": 4
     },
