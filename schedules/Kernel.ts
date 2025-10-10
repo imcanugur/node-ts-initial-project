@@ -1,5 +1,5 @@
-import cron, { ScheduledTask } from 'node-cron';
-import { Logger } from '@/config/Logger';
+import cron, { ScheduledTask } from "node-cron";
+import { Logger } from "@/config/Logger";
 import c from "config";
 
 export interface Scheduler {
@@ -14,15 +14,14 @@ export class Kernel {
   private tasks: ScheduledTask[] = [];
   private isRegistered = false;
 
-
   public addScheduler(scheduler: Scheduler): void {
     this.schedulers.push(scheduler);
   }
 
   public async register(): Promise<void> {
-    this.logger.info('🕒 Registering schedules...');
+    this.logger.info("🕒 Registering schedules...");
     for (const scheduler of this.schedulers) {
-      if (scheduler?.cron && typeof scheduler.handle === 'function') {
+      if (scheduler?.cron && typeof scheduler.handle === "function") {
         const task = cron.schedule(scheduler.cron, async () => {
           const start = Date.now();
           try {
@@ -49,16 +48,16 @@ export class Kernel {
 
   public async boot(): Promise<void> {
     if (!this.isRegistered) {
-      this.logger.error('⚠️ Kernel boot attempted before registration.');
+      this.logger.error("⚠️ Kernel boot attempted before registration.");
       return;
     }
     this.tasks.forEach((task) => task.start());
-    this.logger.info('✅ All schedulers booted successfully');
+    this.logger.info("✅ All schedulers booted successfully");
   }
 
   public async shutdown(): Promise<void> {
-    this.logger.info('🛑 Shutting down all schedulers...');
+    this.logger.info("🛑 Shutting down all schedulers...");
     this.tasks.forEach((task) => task.stop());
-    this.logger.info('🧹 Kernel shutdown completed');
+    this.logger.info("🧹 Kernel shutdown completed");
   }
 }

@@ -1,8 +1,8 @@
-import { Kernel } from './Kernel';
-import { Logger } from '@/config/Logger';
-import { Scheduler } from './Kernel';
+import { Kernel } from "./Kernel";
+import { Logger } from "@/config/Logger";
+import { Scheduler } from "./Kernel";
 import c from "config";
-import {CoffeeBreakReminder} from "@/jobs/CoffeeBreakReminder";
+import { CoffeeBreakReminder } from "@/jobs/CoffeeBreakReminder";
 
 class ScheduleRegister {
   private kernel = new Kernel();
@@ -12,11 +12,11 @@ class ScheduleRegister {
   private readonly isEnabled: boolean;
 
   constructor() {
-    this.isEnabled = c.get('app.scheduler');
+    this.isEnabled = c.get("app.scheduler");
   }
 
   private loadSchedulers(): void {
-    this.logger.info('⚙️ Loading schedulers...');
+    this.logger.info("⚙️ Loading schedulers...");
     this.schedulers.forEach((scheduler) => {
       this.kernel.addScheduler(scheduler);
       this.logger.info(`📦 Scheduler registered: ${scheduler.name}`);
@@ -25,14 +25,16 @@ class ScheduleRegister {
 
   public async start(): Promise<void> {
     if (!this.isEnabled) {
-      this.logger.info('⚙️ Scheduler disabled by configuration — skipping registration.');
+      this.logger.info(
+        "⚙️ Scheduler disabled by configuration — skipping registration.",
+      );
       return;
     }
-    this.logger.info('🚀 ScheduleApp starting...');
+    this.logger.info("🚀 ScheduleApp starting...");
     this.loadSchedulers();
     await this.kernel.register();
     await this.kernel.boot();
-    this.logger.info('✅ ScheduleApp initialized successfully');
+    this.logger.info("✅ ScheduleApp initialized successfully");
   }
 
   public async shutdown(): Promise<void> {

@@ -35,8 +35,9 @@ export class Redis {
       enableReadyCheck: false,
     });
 
-
-    this.client.on("connect", () => console.log("✅ Redis connected:", this.config.host, this.config.port));
+    this.client.on("connect", () =>
+      console.log("✅ Redis connected:", this.config.host, this.config.port),
+    );
 
     this.client.on("error", (err) => {
       console.error("❌ Redis error:", err);

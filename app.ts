@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import Database from "@/config/Database";
 import Server from "@/config/Server";
-import ScheduleRegister from '@/schedules';
-import QueueRegister from '@/queues';
+import ScheduleRegister from "@/schedules";
+import QueueRegister from "@/queues";
 
 (async () => {
   try {

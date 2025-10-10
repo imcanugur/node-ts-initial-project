@@ -1,7 +1,7 @@
-import { JobDefinition } from '@/queues/Kernel';
+import { JobDefinition } from "@/queues/Kernel";
 
 export const MotivationalQuoteJob: JobDefinition = {
-  name: 'MotivationalQuoteJob',
+  name: "MotivationalQuoteJob",
 
   handle: async (data: { user: string }) => {
     const quotes = [
