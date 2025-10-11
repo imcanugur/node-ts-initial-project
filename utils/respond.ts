@@ -33,20 +33,29 @@ export async function respond(
   if (isApiClient) {
     return res.status(code).json({
       status: code,
-      message,
+      message: isDev ? message : "Server Error",
+      method: safeExtra?.method || null,
+      url: safeExtra?.url || null,
       path: req.path,
       host: req.headers.host,
+      ip: safeExtra?.ip || null,
+      validate : safeExtra?.validateMessage || undefined,
+      stack: isDev ? safeExtra?.stack || undefined : undefined,
       timestamp: new Date().toISOString(),
-      ...(safeExtra || {}),
     });
   }
 
   try {
-    const filePath = path.join(process.cwd(), "views/error/index.html");
+    const filePath = path.join(process.cwd(), "views/errors/index.html");
     let template = await fs.readFile(filePath, "utf8");
+    if (!isDev) {
+      template = template
+        .replace( /(<!-- Stack Trace -->)([\s\S]*?)(<!-- Stack Trace -->)/, "$1$3" )
+        .replace( /(<!-- Debug Info -->)([\s\S]*?)(<!-- Debug Info -->)/, "$1$3" );
+    }
 
     const debugHtml = `
-      <div class="max-w-5xl w-full text-left bg-[#171717] text-sm text-gray-200 border border-neutral-800 rounded-xl shadow-lg overflow-hidden mt-10">
+      <div class="w-full text-left bg-[#171717] text-sm text-gray-200 border border-neutral-800 rounded-xl shadow-lg overflow-hidden mt-10">
         <div class="px-6 py-4 border-b border-neutral-800 flex items-center justify-between">
           <h2 class="text-lg font-semibold text-amber-400">Information</h2>
           ${
@@ -115,7 +124,7 @@ export async function respond(
 
     const html = template
       .replace(/{{CODE}}/g, String(code))
-      .replace(/{{MESSAGE}}/g, message)
+      .replace(/{{MESSAGE}}/g, isDev ? message : "Server Error")
       .replace(/{{PATH}}/g, req.path)
       .replace(/{{HOST}}/g, req.headers.host || "")
       .replace(/{{TIMESTAMP}}/g, new Date().toLocaleString("tr-TR"))

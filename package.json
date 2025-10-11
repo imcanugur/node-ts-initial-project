@@ -1,7 +1,7 @@
 {
-  "name": "backend",
+  "name": "FLY",
   "version": "1.0.0",
-  "description": "BACKEND PROJECT",
+  "description": "FLY PROJECT",
   "main": "_dist/app.js",
   "scripts": {
     "start": "node _dist/app.js",
@@ -10,7 +10,7 @@
     "build": "npx tsc && tspc"
   },
   "keywords": [
-    "BACKEND"
+    "FLY"
   ],
   "author": "The Can'S Group",
   "license": "LICENSE",

@@ -2,17 +2,16 @@ import { Exclude } from "class-transformer";
 import {
   Entity as TypeOrmEntity,
   Column,
-  Index
+  Index,
 } from "typeorm";
-import { UserRole } from "@/constants/UserRole";
 import { Entity } from "@/entities";
-import Database from "@/config/Database";
+import {UserRole} from "@/constants/UserRole";
 
-@TypeOrmEntity("users")
-@Index("idx_user_email", ["email"], { unique: true })
-@Index("idx_user_phone", ["phone"], { unique: true })
-@Index("idx_user_status", ["status"])
-export class User extends Entity {
+@TypeOrmEntity("admin")
+@Index("idx_admin_email", ["email"], { unique: true })
+@Index("idx_admin_phone", ["phone"], { unique: true })
+@Index("idx_admin_status", ["status"])
+export class Admin extends Entity {
   @Column()
   name: string;
 
@@ -51,7 +50,7 @@ export class User extends Entity {
     this.phone = phone;
     this.password = password;
     this.status = status;
-    this.role = UserRole.USER;
+    this.role = UserRole.ADMIN;
     this.attributes = attributes ?? {};
   }
 }

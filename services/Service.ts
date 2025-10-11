@@ -17,7 +17,7 @@ export class Service<T extends ObjectLiteral & { id: string; user: any }> {
   }
 
   protected getCurrentUser() {
-    const action = Container.get<Action>("current_action");
+    const action = Container.get<Action>("auth_user");
     if (!action?.request?.user) {
       throw new Error(
         "Kullanıcı kimliği doğrulanamadı. Lütfen tekrar deneyiniz.",

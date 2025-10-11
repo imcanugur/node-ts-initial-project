@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   public getCurrentUser() {
-    const action = Container.get<Action>("current_action");
+    const action = Container.get<Action>("auth_user");
     if (!action?.request?.user) {
       throw new Error("User not authenticated");
     }

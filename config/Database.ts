@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import config from "config";
-import { User } from "@/entities";
+import { User, Admin } from "@/entities";
 import { Container } from "typedi";
 
 class Database {
@@ -32,7 +32,7 @@ class Database {
         logging: db.logging,
         ssl: db.ssl,
 
-        entities: [User],
+        entities: [User, Admin],
       });
 
       await this.dataSource.initialize();

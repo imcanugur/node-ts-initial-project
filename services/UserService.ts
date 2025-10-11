@@ -33,7 +33,7 @@ export class UserService {
     images: string[],
   ): Promise<{
     token: string;
-    user: Omit<User, "password" | "generateUserCode">;
+    user: Omit<User, "password">;
   }> {
     const hashedPassword = await argon2.hash(password);
     const user = this.userRepository.create({
@@ -42,9 +42,7 @@ export class UserService {
       phone,
       password: hashedPassword,
       status: true,
-      role,
       attributes: attributes ?? {},
-      images,
     });
 
     const newUser = await this.userRepository.save(user);
@@ -95,10 +93,6 @@ export class UserService {
     return this.userRepository.findOne({ where: { phone } });
   }
 
-  public async findByUserCode(userCode: string): Promise<User | null> {
-    return this.userRepository.findOne({ where: { userCode } });
-  }
-
   public async findById(id: string): Promise<User | null> {
     return this.userRepository.findOne({ where: { id } });
   }
@@ -118,7 +112,6 @@ export class UserService {
     if (email) user.email = email;
     if (phone) user.phone = phone;
     if (attributes) user.attributes = attributes;
-    if (images) user.images = images;
 
     return this.userRepository.save(user);
   }
@@ -162,7 +155,7 @@ export class UserService {
   private excludePassword(
     user: User,
   ): Omit<User, "password" | "generateUserCode"> {
-    const { password, generateUserCode, ...userWithoutPassword } = user;
+    const { password, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
 
@@ -290,7 +283,5 @@ export class UserService {
     };
   }
 
-  async ratingUpdate(userId: string, data: { rating: number }): Promise<void> {
-    await this.userRepository.update(userId, { rating: data.rating });
-  }
+
 }
