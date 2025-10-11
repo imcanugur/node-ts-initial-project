@@ -1,242 +1,355 @@
 <!doctype html>
 <html lang="tr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{CODE}} - {{MESSAGE}}</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{CODE}} - {{MESSAGE}}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
       tailwind.config = {
-          theme: {
-              extend: {
-                  colors: {
-                      accent: "#ff2d55",
-                      "bg-dark": "#0a0a0a",
-                  },
-              },
+        theme: {
+          extend: {
+            colors: {
+              accent: "#ff2d55",
+              "bg-dark": "#0a0a0a",
+            },
           },
+        },
       };
-  </script>
-  <style>
+    </script>
+    <style>
       @keyframes scan {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(100vh); }
+        0% {
+          transform: translateY(-100%);
+        }
+        100% {
+          transform: translateY(100vh);
+        }
       }
 
       .scan-line {
-          animation: scan 8s linear infinite;
+        animation: scan 8s linear infinite;
       }
 
       .glitch {
-          position: relative;
+        position: relative;
       }
 
       .glitch::before,
       .glitch::after {
-          content: attr(data-text);
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
       }
 
       .glitch::before {
-          left: 2px;
-          text-shadow: -2px 0 #ff2d55;
-          clip: rect(24px, 550px, 90px, 0);
-          animation: glitch-anim 3s infinite linear alternate-reverse;
+        left: 2px;
+        text-shadow: -2px 0 #ff2d55;
+        clip: rect(24px, 550px, 90px, 0);
+        animation: glitch-anim 3s infinite linear alternate-reverse;
       }
 
       .glitch::after {
-          left: -2px;
-          text-shadow: -2px 0 #00fff9;
-          clip: rect(85px, 550px, 140px, 0);
-          animation: glitch-anim 2s infinite linear alternate-reverse;
+        left: -2px;
+        text-shadow: -2px 0 #00fff9;
+        clip: rect(85px, 550px, 140px, 0);
+        animation: glitch-anim 2s infinite linear alternate-reverse;
       }
 
       @keyframes glitch-anim {
-          0% { clip: rect(30px, 9999px, 100px, 0); }
-          20% { clip: rect(10px, 9999px, 80px, 0); }
-          40% { clip: rect(90px, 9999px, 120px, 0); }
-          60% { clip: rect(50px, 9999px, 60px, 0); }
-          80% { clip: rect(20px, 9999px, 140px, 0); }
-          100% { clip: rect(70px, 9999px, 90px, 0); }
+        0% {
+          clip: rect(30px, 9999px, 100px, 0);
+        }
+        20% {
+          clip: rect(10px, 9999px, 80px, 0);
+        }
+        40% {
+          clip: rect(90px, 9999px, 120px, 0);
+        }
+        60% {
+          clip: rect(50px, 9999px, 60px, 0);
+        }
+        80% {
+          clip: rect(20px, 9999px, 140px, 0);
+        }
+        100% {
+          clip: rect(70px, 9999px, 90px, 0);
+        }
       }
 
       .code-block {
-          font-family: 'Monaco', 'Menlo', monospace;
-          font-size: 13px;
-          line-height: 1.6;
+        font-family: "Monaco", "Menlo", monospace;
+        font-size: 13px;
+        line-height: 1.6;
       }
 
       .stack-item:hover {
-          background: rgba(255, 45, 85, 0.05);
+        background: rgba(255, 45, 85, 0.05);
       }
-  </style>
-</head>
+    </style>
+  </head>
 
-<body class="bg-bg-dark text-gray-100 min-h-screen flex flex-col font-mono">
-<div class="fixed inset-0 pointer-events-none z-50 overflow-hidden">
-  <div class="scan-line absolute w-full h-1 bg-gradient-to-r from-transparent via-accent/30 to-transparent"></div>
-</div>
-
-<div class="fixed inset-0 opacity-[0.015]" style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 50px 50px;"></div>
-
-<header class="relative z-10 border-b border-neutral-900 bg-black/40 backdrop-blur-sm">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-    <div class="flex items-center gap-4">
-      <div class="flex items-center gap-3">
-        <span class="text-3xl font-bold text-accent glitch" data-text="{{CODE}}">{{CODE}}</span>
-        <span class="text-neutral-600">|</span>
-        <span class="text-sm text-neutral-400">{{MESSAGE}}</span>
-      </div>
-    </div>
-    <a href="/" class="text-xs text-neutral-500 hover:text-accent transition px-3 py-1.5 border border-neutral-800 hover:border-accent/50 rounded">
-      ← Home
-    </a>
-  </div>
-</header>
-
-<main class="relative z-10 flex-grow max-w-7xl w-full mx-auto px-6 py-8">
-  <!-- Exception Header -->
-  <div class="mb-6 bg-gradient-to-r from-accent/10 to-transparent border-l-4 border-accent px-6 py-4">
-    <div class="flex items-start gap-3">
-      <span class="text-2xl">{{EMOJI}}</span>
-      <div class="flex-1">
-        <h1 class="text-xl font-bold text-white mb-1">{{MESSAGE}}</h1>
-        <p class="text-sm text-neutral-400 font-sans">
-          <span class="text-accent">{{HOST}}</span><span class="text-neutral-600">{{PATH}}</span>
-        </p>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="space-y-6">
-    <div class="bg-neutral-950 border border-neutral-900 rounded-lg overflow-hidden">
-      <!-- Debug Info -->
-      <div class="bg-neutral-900/50 px-6 py-3 border-b border-neutral-800 flex items-center justify-between">
-        <h2 class="text-sm font-semibold text-neutral-300">Exception Details</h2>
-        <span class="text-xs text-neutral-500">{{TIMESTAMP}}</span>
-      </div>
-      <!-- Debug Info -->
-      <div class="p-6">
-        {{DEBUG}}
-      </div>
+  <body class="bg-bg-dark text-gray-100 min-h-screen flex flex-col font-mono">
+    <div class="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+      <div
+        class="scan-line absolute w-full h-1 bg-gradient-to-r from-transparent via-accent/30 to-transparent"
+      ></div>
     </div>
 
-    <!-- Stack Trace -->
-    <div class="bg-neutral-950 border border-neutral-900 rounded-lg overflow-hidden">
-      <div class="bg-neutral-900/50 px-6 py-3 border-b border-neutral-800">
-        <h2 class="text-sm font-semibold text-neutral-300">Stack Trace</h2>
+    <div
+      class="fixed inset-0 opacity-[0.015]"
+      style="
+        background-image:
+          linear-gradient(#fff 1px, transparent 1px),
+          linear-gradient(90deg, #fff 1px, transparent 1px);
+        background-size: 50px 50px;
+      "
+    ></div>
+
+    <header
+      class="relative z-10 border-b border-neutral-900 bg-black/40 backdrop-blur-sm"
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-3">
+            <span
+              class="text-3xl font-bold text-accent glitch"
+              data-text="{{CODE}}"
+              >{{CODE}}</span
+            >
+            <span class="text-neutral-600">|</span>
+            <span class="text-sm text-neutral-400">{{MESSAGE}}</span>
+          </div>
+        </div>
+        <a
+          href="/"
+          class="text-xs text-neutral-500 hover:text-accent transition px-3 py-1.5 border border-neutral-800 hover:border-accent/50 rounded"
+        >
+          ← Home
+        </a>
       </div>
-      <div class="divide-y divide-neutral-900">
-        <div class="stack-item px-6 py-4 transition-colors cursor-default">
-          <div class="flex items-start gap-4">
-            <span class="text-xs text-accent font-bold mt-1">#0</span>
-            <div class="flex-1">
-              <p class="text-sm text-neutral-400 mb-1">
-                <span class="text-accent">{{HOST}}</span><span class="text-neutral-500">{{PATH}}</span>
-              </p>
-              <pre class="code-block text-neutral-500 text-xs overflow-x-auto"><span class="text-purple-400">ErrorHandler</span>::<span class="text-blue-400">handle</span>(<span class="text-orange-400">{{CODE}}</span>, <span class="text-green-400">"{{MESSAGE}}"</span>)</pre>
+    </header>
+
+    <main class="relative z-10 flex-grow max-w-7xl w-full mx-auto px-6 py-8">
+      <!-- Exception Header -->
+      <div
+        class="mb-6 bg-gradient-to-r from-accent/10 to-transparent border-l-4 border-accent px-6 py-4"
+      >
+        <div class="flex items-start gap-3">
+          <span class="text-2xl">{{EMOJI}}</span>
+          <div class="flex-1">
+            <h1 class="text-xl font-bold text-white mb-1">{{MESSAGE}}</h1>
+            <p class="text-sm text-neutral-400 font-sans">
+              <span class="text-accent">{{HOST}}</span
+              ><span class="text-neutral-600">{{PATH}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div
+          class="bg-neutral-950 border border-neutral-900 rounded-lg overflow-hidden"
+        >
+          <!-- Debug Info -->
+          <div
+            class="bg-neutral-900/50 px-6 py-3 border-b border-neutral-800 flex items-center justify-between"
+          >
+            <h2 class="text-sm font-semibold text-neutral-300">
+              Exception Details
+            </h2>
+            <span class="text-xs text-neutral-500">{{TIMESTAMP}}</span>
+          </div>
+          <!-- Debug Info -->
+          <div class="p-6">{{DEBUG}}</div>
+        </div>
+
+        <!-- Stack Trace -->
+        <div
+          class="bg-neutral-950 border border-neutral-900 rounded-lg overflow-hidden"
+        >
+          <div class="bg-neutral-900/50 px-6 py-3 border-b border-neutral-800">
+            <h2 class="text-sm font-semibold text-neutral-300">Stack Trace</h2>
+          </div>
+          <div class="divide-y divide-neutral-900">
+            <div class="stack-item px-6 py-4 transition-colors cursor-default">
+              <div class="flex items-start gap-4">
+                <span class="text-xs text-accent font-bold mt-1">#0</span>
+                <div class="flex-1">
+                  <p class="text-sm text-neutral-400 mb-1">
+                    <span class="text-accent">{{HOST}}</span
+                    ><span class="text-neutral-500">{{PATH}}</span>
+                  </p>
+                  <pre
+                    class="code-block text-neutral-500 text-xs overflow-x-auto"
+                  ><span class="text-purple-400">ErrorHandler</span>::<span class="text-blue-400">handle</span>(<span class="text-orange-400">{{CODE}}</span>, <span class="text-green-400">"{{MESSAGE}}"</span>)</pre>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <!-- Stack Trace -->
+        <!-- Stack Trace -->
 
-    <!-- Request Info -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="bg-neutral-950 border border-neutral-900 rounded-lg overflow-hidden">
-        <div class="bg-neutral-900/50 px-4 py-2 border-b border-neutral-800">
-          <h3 class="text-xs font-semibold text-neutral-400">Request Info</h3>
+        <!-- Request Info -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div
+            class="bg-neutral-950 border border-neutral-900 rounded-lg overflow-hidden"
+          >
+            <div
+              class="bg-neutral-900/50 px-4 py-2 border-b border-neutral-800"
+            >
+              <h3 class="text-xs font-semibold text-neutral-400">
+                Request Info
+              </h3>
+            </div>
+            <div class="p-4 space-y-2 text-xs">
+              <div class="flex justify-between">
+                <span class="text-neutral-500">Method:</span>
+                <span class="text-accent font-semibold">GET</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-500">Path:</span>
+                <span class="text-neutral-400">{{PATH}}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-500">Status:</span>
+                <span class="text-{{COLOR}}">{{CODE}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-neutral-950 border border-neutral-900 rounded-lg overflow-hidden"
+          >
+            <div
+              class="bg-neutral-900/50 px-4 py-2 border-b border-neutral-800"
+            >
+              <h3 class="text-xs font-semibold text-neutral-400">
+                Server Info
+              </h3>
+            </div>
+            <div class="p-4 space-y-2 text-xs">
+              <div class="flex justify-between">
+                <span class="text-neutral-500">Host:</span>
+                <span class="text-neutral-400">{{HOST}}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-500">Time:</span>
+                <span class="text-neutral-400">{{TIMESTAMP}}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-500">IP:</span>
+                <span class="text-neutral-400">127.0.0.1</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="p-4 space-y-2 text-xs">
-          <div class="flex justify-between">
-            <span class="text-neutral-500">Method:</span>
-            <span class="text-accent font-semibold">GET</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-neutral-500">Path:</span>
-            <span class="text-neutral-400">{{PATH}}</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-neutral-500">Status:</span>
-            <span class="text-{{COLOR}}">{{CODE}}</span>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap gap-3 pt-4">
+          <a
+            href="/"
+            class="px-4 py-2 bg-accent hover:bg-accent/90 text-white text-sm font-semibold rounded transition flex items-center gap-2"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+            HOME
+          </a>
+          <button
+            onclick="location.reload()"
+            class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 text-sm font-semibold rounded transition flex items-center gap-2"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+            REFRESH
+          </button>
+          <button
+            onclick="window.history.back()"
+            class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 text-sm font-semibold rounded transition flex items-center gap-2"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+            BACK
+          </button>
+          <a
+            href="https://github.com/imcanugur/node-ts-initial-project"
+            target="_blank"
+            class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 text-sm font-semibold rounded transition flex items-center gap-2"
+          >
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+              />
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer
+      class="relative z-10 border-t border-neutral-900 bg-black/40 backdrop-blur-sm"
+    >
+      <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between text-xs">
+          <p class="text-neutral-600">
+            Node.ts FLY Framework <span class="text-neutral-800">•</span> v1.0.0
+          </p>
+          <div class="flex items-center gap-4">
+            <a
+              href="https://github.com/imcanugur/node-ts-initial-project"
+              target="_blank"
+              class="text-neutral-600 hover:text-accent transition"
+            >
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+                />
+              </svg>
+            </a>
+            <span class="text-neutral-800">•</span>
+            <p class="text-neutral-600">{{TIMESTAMP}}</p>
           </div>
         </div>
       </div>
-
-      <div class="bg-neutral-950 border border-neutral-900 rounded-lg overflow-hidden">
-        <div class="bg-neutral-900/50 px-4 py-2 border-b border-neutral-800">
-          <h3 class="text-xs font-semibold text-neutral-400">Server Info</h3>
-        </div>
-        <div class="p-4 space-y-2 text-xs">
-          <div class="flex justify-between">
-            <span class="text-neutral-500">Host:</span>
-            <span class="text-neutral-400">{{HOST}}</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-neutral-500">Time:</span>
-            <span class="text-neutral-400">{{TIMESTAMP}}</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-neutral-500">IP:</span>
-            <span class="text-neutral-400">127.0.0.1</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="flex flex-wrap gap-3 pt-4">
-      <a href="/" class="px-4 py-2 bg-accent hover:bg-accent/90 text-white text-sm font-semibold rounded transition flex items-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-        </svg>
-        HOME
-      </a>
-      <button onclick="location.reload()" class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 text-sm font-semibold rounded transition flex items-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-        </svg>
-        REFRESH
-      </button>
-      <button onclick="window.history.back()" class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 text-sm font-semibold rounded transition flex items-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-        </svg>
-        BACK
-      </button>
-      <a href="https://github.com/imcanugur/node-ts-initial-project" target="_blank" class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 text-sm font-semibold rounded transition flex items-center gap-2">
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-        </svg>
-        GitHub
-      </a>
-    </div>
-  </div>
-</main>
-
-<footer class="relative z-10 border-t border-neutral-900 bg-black/40 backdrop-blur-sm">
-  <div class="max-w-7xl mx-auto px-6 py-4">
-    <div class="flex items-center justify-between text-xs">
-      <p class="text-neutral-600">
-        Node.ts FLY Framework <span class="text-neutral-800">•</span> v1.0.0
-      </p>
-      <div class="flex items-center gap-4">
-        <a href="https://github.com/imcanugur/node-ts-initial-project" target="_blank" class="text-neutral-600 hover:text-accent transition">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-          </svg>
-        </a>
-        <span class="text-neutral-800">•</span>
-        <p class="text-neutral-600">{{TIMESTAMP}}</p>
-      </div>
-    </div>
-  </div>
-</footer>
-</body>
+    </footer>
+  </body>
 </html>

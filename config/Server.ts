@@ -22,7 +22,7 @@ import {
 import { HostGuard } from "@/middlewares/HostGuard";
 import nunjucks from "nunjucks";
 import path from "path";
-import {respond} from "@/utils/respond";
+import { respond } from "@/utils/respond";
 
 useContainer(Container);
 
@@ -79,7 +79,7 @@ class Server {
 
     this.app.use((err: any, req: any, res: any, next: any) => {
       const handler = Container.get(HttpErrorHandler);
-      handler.error( err, req, res, next ).then( r  => r );
+      handler.error(err, req, res, next).then((r) => r);
     });
     this.app.use((req, res) => respond(res, 404, "Not Found"));
   }

@@ -5,10 +5,7 @@ export class LoginResponse {
   token: string;
   user: Omit<User, "password">;
 
-  constructor(
-    token: string,
-    user: Omit<User, "password">,
-  ) {
+  constructor(token: string, user: Omit<User, "password">) {
     this.token = token;
     this.user = user;
   }

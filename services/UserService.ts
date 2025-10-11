@@ -282,6 +282,4 @@ export class UserService {
       user: this.excludePassword(user),
     };
   }
-
-
 }

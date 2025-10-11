@@ -1,11 +1,7 @@
 import { Exclude } from "class-transformer";
-import {
-  Entity as TypeOrmEntity,
-  Column,
-  Index,
-} from "typeorm";
+import { Entity as TypeOrmEntity, Column, Index } from "typeorm";
 import { Entity } from "@/entities";
-import {UserRole} from "@/constants/UserRole";
+import { UserRole } from "@/constants/UserRole";
 
 @TypeOrmEntity("admin")
 @Index("idx_admin_email", ["email"], { unique: true })

@@ -1,9 +1,5 @@
 import { Exclude } from "class-transformer";
-import {
-  Entity as TypeOrmEntity,
-  Column,
-  Index
-} from "typeorm";
+import { Entity as TypeOrmEntity, Column, Index } from "typeorm";
 import { UserRole } from "@/constants/UserRole";
 import { Entity } from "@/entities";
 import Database from "@/config/Database";

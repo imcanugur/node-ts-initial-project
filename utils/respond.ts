@@ -39,7 +39,7 @@ export async function respond(
       path: req.path,
       host: req.headers.host,
       ip: safeExtra?.ip || null,
-      validate : safeExtra?.validateMessage || undefined,
+      validate: safeExtra?.validateMessage || undefined,
       stack: isDev ? safeExtra?.stack || undefined : undefined,
       timestamp: new Date().toISOString(),
     });
@@ -50,8 +50,14 @@ export async function respond(
     let template = await fs.readFile(filePath, "utf8");
     if (!isDev) {
       template = template
-        .replace( /(<!-- Stack Trace -->)([\s\S]*?)(<!-- Stack Trace -->)/, "$1$3" )
-        .replace( /(<!-- Debug Info -->)([\s\S]*?)(<!-- Debug Info -->)/, "$1$3" );
+        .replace(
+          /(<!-- Stack Trace -->)([\s\S]*?)(<!-- Stack Trace -->)/,
+          "$1$3",
+        )
+        .replace(
+          /(<!-- Debug Info -->)([\s\S]*?)(<!-- Debug Info -->)/,
+          "$1$3",
+        );
     }
 
     const debugHtml = `
